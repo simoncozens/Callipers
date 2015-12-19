@@ -1,0 +1,292 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F43334551C256332008681AC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43334541C256332008681AC /* Cocoa.framework */; };
+		F43334581C256332008681AC /* Callipers-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = F43334571C256332008681AC /* Callipers-Prefix.pch */; };
+		F433345A1C256332008681AC /* Callipers-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F43334591C256332008681AC /* Callipers-Info.plist */; };
+		F433345D1C256332008681AC /* Callipers.m in Sources */ = {isa = PBXBuildFile; fileRef = F433345C1C256332008681AC /* Callipers.m */; };
+		F43334601C256332008681AC /* ToolbarIconTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F433345F1C256332008681AC /* ToolbarIconTemplate.pdf */; };
+		F43334621C256332008681AC /* GlyphsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43334611C256332008681AC /* GlyphsCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F43334511C256332008681AC /* Callipers.glyphsTool */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Callipers.glyphsTool; sourceTree = BUILT_PRODUCTS_DIR; };
+		F43334541C256332008681AC /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		F43334571C256332008681AC /* Callipers-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Callipers-Prefix.pch"; sourceTree = "<group>"; };
+		F43334591C256332008681AC /* Callipers-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Callipers-Info.plist"; sourceTree = "<group>"; };
+		F433345B1C256332008681AC /* Callipers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Callipers.h; sourceTree = "<group>"; };
+		F433345C1C256332008681AC /* Callipers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Callipers.m; sourceTree = "<group>"; };
+		F433345F1C256332008681AC /* ToolbarIconTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ToolbarIconTemplate.pdf; sourceTree = "<group>"; };
+		F43334611C256332008681AC /* GlyphsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GlyphsCore.framework; path = /Applications/Glyphs.app/Contents/Frameworks/GlyphsCore.framework; sourceTree = "<absolute>"; };
+		F43334631C256332008681AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F433344E1C256332008681AC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F43334621C256332008681AC /* GlyphsCore.framework in Frameworks */,
+				F43334551C256332008681AC /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F43334481C256332008681AC = {
+			isa = PBXGroup;
+			children = (
+				F43334561C256332008681AC /* Callipers */,
+				F43334531C256332008681AC /* Frameworks */,
+				F43334521C256332008681AC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F43334521C256332008681AC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F43334511C256332008681AC /* Callipers.glyphsTool */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F43334531C256332008681AC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F43334541C256332008681AC /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F43334561C256332008681AC /* Callipers */ = {
+			isa = PBXGroup;
+			children = (
+				F43334571C256332008681AC /* Callipers-Prefix.pch */,
+				F43334591C256332008681AC /* Callipers-Info.plist */,
+				F433345B1C256332008681AC /* Callipers.h */,
+				F433345C1C256332008681AC /* Callipers.m */,
+				F43334631C256332008681AC /* Info.plist */,
+				F433345E1C256332008681AC /* Supporting Files */,
+			);
+			path = Callipers;
+			sourceTree = "<group>";
+		};
+		F433345E1C256332008681AC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F433345F1C256332008681AC /* ToolbarIconTemplate.pdf */,
+				F43334611C256332008681AC /* GlyphsCore.framework */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F43334501C256332008681AC /* Callipers */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F43334661C256332008681AC /* Build configuration list for PBXNativeTarget "Callipers" */;
+			buildPhases = (
+				F433344D1C256332008681AC /* Sources */,
+				F433344E1C256332008681AC /* Frameworks */,
+				F433344F1C256332008681AC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Callipers;
+			productName = Callipers;
+			productReference = F43334511C256332008681AC /* Callipers.glyphsTool */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F43334491C256332008681AC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Simon Cozens";
+				TargetAttributes = {
+					F43334501C256332008681AC = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F433344C1C256332008681AC /* Build configuration list for PBXProject "Callipers" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F43334481C256332008681AC;
+			productRefGroup = F43334521C256332008681AC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F43334501C256332008681AC /* Callipers */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F433344F1C256332008681AC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F43334601C256332008681AC /* ToolbarIconTemplate.pdf in Resources */,
+				F433345A1C256332008681AC /* Callipers-Info.plist in Resources */,
+				F43334581C256332008681AC /* Callipers-Prefix.pch in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F433344D1C256332008681AC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F433345D1C256332008681AC /* Callipers.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F43334641C256332008681AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		F43334651C256332008681AC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+			};
+			name = Release;
+		};
+		F43334671C256332008681AC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEPLOYMENT_LOCATION = YES;
+				DSTROOT = "~/Library/Application Support/Glyphs/Plugins";
+				FRAMEWORK_SEARCH_PATHS = "$(SYSTEM_APPS_DIR)/Glyphs.app/Contents/Frameworks";
+				INFOPLIST_FILE = Callipers/Info.plist;
+				INSTALL_PATH = /;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.simon-cozens.Callipers";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = glyphsTool;
+			};
+			name = Debug;
+		};
+		F43334681C256332008681AC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SYSTEM_APPS_DIR)/Glyphs.app/Contents/Frameworks";
+				INFOPLIST_FILE = Callipers/Info.plist;
+				INSTALL_PATH = /;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.simon-cozens.Callipers";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = NO;
+				WRAPPER_EXTENSION = glyphsTool;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F433344C1C256332008681AC /* Build configuration list for PBXProject "Callipers" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F43334641C256332008681AC /* Debug */,
+				F43334651C256332008681AC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F43334661C256332008681AC /* Build configuration list for PBXNativeTarget "Callipers" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F43334671C256332008681AC /* Debug */,
+				F43334681C256332008681AC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F43334491C256332008681AC /* Project object */;
+}

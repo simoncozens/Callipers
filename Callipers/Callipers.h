@@ -15,20 +15,19 @@
 #import <GlyphsCore/GSNode.h>
 #import <GlyphsCore/GSGeometrieHelper.h>
 
+#import "SCPathTime.h"
 
-typedef struct myPathTime  {
-    NSInteger segId;
-    CGFloat t;
-} myPathTime;
-
+typedef enum {
+    DRAWING_START,
+    DRAWING_END
+} TOOL_STATE ;
 
 @interface Callipers : GlyphsPathPlugin {
-    myPathTime segStart1, segStart2, segEnd1,segEnd2;
-    
-    /* Ideally these paths would go into the pathtime structs, but you can't
-       put a ObjC object inside a C struct. */
-    GSPath* path1;
-    GSPath* path2;
+    SCPathTime* segStart1;
+    SCPathTime* segStart2;
+    SCPathTime* segEnd1;
+    SCPathTime* segEnd2;
+    TOOL_STATE tool_state;
 }
 
 @end

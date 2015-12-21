@@ -18,12 +18,12 @@
 		_toolBarIcon = [[NSImage alloc] initWithContentsOfFile:[thisBundle pathForImageResource: @"toolbar"]];
 		[_toolBarIcon setTemplate:YES];
 	}
-    segStart1.segId = NSNotFound;
-    segEnd1.segId = NSNotFound;
-    segStart2.segId = NSNotFound;
-    segEnd2.segId = NSNotFound;
-    path1 = NULL;
-    path2 = NULL;
+    tool_state = DRAWING_START;
+    
+    segStart1 = [[SCPathTime alloc] init];
+    segStart2 = [[SCPathTime alloc] init];
+    segEnd1   = [[SCPathTime alloc] init];
+    segEnd2   = [[SCPathTime alloc] init];
 
 	return self;
 }
@@ -45,7 +45,13 @@
 	_editViewController = [_windowController activeEditViewController];
 	// editViewController.graphicView.cursor = [NSCursor closedHandCursor];
     _draggStart = [_editViewController.graphicView getActiveLocation: theEvent];
-    NSLog(@"__mouse dragged from : %@", NSStringFromPoint(_draggStart));
+    if (tool_state == DRAWING_START) {
+        segStart1 = [segStart1 init];
+        segStart2 = [segStart2 init];
+    }
+    segEnd1 = [segEnd1 init];
+    segEnd2 = [segEnd2 init];
+//    NSLog(@"__mouse dragged from : %@", NSStringFromPoint(_draggStart));
 }
 
 - (void) mouseDragged:(NSEvent*)theEvent {
@@ -68,105 +74,134 @@
 - (void) mouseUp:(NSEvent*)theEvent {
 	// Called when the primary mouse button is released.
 	// editViewController.graphicView.cursor = [NSCursor openHandCursor];
+    NSPoint startPoint = _draggStart;
+    NSPoint endPoint   = _draggCurrent;
+    GSLayer* layer = [_editViewController.graphicView activeLayer];
     _dragging = false;
+    NSMutableArray* intersections = [NSMutableArray array];
+    /* How many segments does my line intersect? */
+    for (GSPath* p in [layer paths]) {
+        int i =0;
+        NSArray* segs = [p segments];
+        while (i < [segs count]) {
+            NSArray *thisSeg = [segs objectAtIndex: i];
+            if ([thisSeg count] == 2) {
+                // Set up line intersection
+                NSPoint segstart = [[thisSeg objectAtIndex:0] pointValue];
+                NSPoint segend = [[thisSeg objectAtIndex:1] pointValue];
+                NSPoint pt = GSIntersectLineLine(startPoint, endPoint, segstart, segend);
+                if (pt.x != NSNotFound && pt.y != NSNotFound) {
+                    CGFloat t = GSDistance(segstart,pt) / GSDistance(segstart, segend);
+                    SCPathTime *intersection = [[SCPathTime alloc] initWithPath:p SegId:i t:t];
+                    [intersections addObject: intersection];
+                }
+            } else {
+                NSPoint segstart = [[thisSeg objectAtIndex:0] pointValue];
+                NSPoint handle1 = [[thisSeg objectAtIndex:1] pointValue];
+                NSPoint handle2 = [[thisSeg objectAtIndex:2] pointValue];
+                NSPoint segend = [[thisSeg objectAtIndex:3] pointValue];
+                NSArray* localIntersections = GSIntersectBezier3Line(segstart, handle1, handle2, segend, startPoint, endPoint);
+                for (id _pt in localIntersections) {
+                    NSPoint pt = [_pt pointValue];
+                    CGFloat t;
+                    [p nearestPointOnPath:pt pathTime:&t];
+                    t = fmod(t, 1.0);
+                    SCPathTime *intersection = [[SCPathTime alloc] initWithPath:p SegId:i t:t];
+                    [intersections addObject: intersection];
+                }
+            }
+            i++;
+        }
+    }
+//    NSLog(@"Found %lu intersections!", (unsigned long)[intersections count]);
+    if ([intersections count] != 2) {
+        [_editViewController.graphicView setNeedsDisplay: TRUE];
+        return;
+    }
+    
+    if (tool_state == DRAWING_START) {
+        tool_state = DRAWING_END;
+        segStart1 = [intersections objectAtIndex:0];
+        segStart2 = [intersections objectAtIndex:1];
+    } else {
+        tool_state = DRAWING_START;
+        segEnd1 = [intersections objectAtIndex:0];
+        segEnd2 = [intersections objectAtIndex:1];
+        _dragging = false;
+        [_editViewController.graphicView setNeedsDisplay: TRUE];
+    }
+    
 }
 
 - (void) drawBackground {
 	// Draw in the background, concerns the complete view.
 }
 
-/* We do this madness instead of the path's pointAtTime function because
- a) that fails on lines
- b) the path time includes both on-curve and off-curve points (!)
-*/
-
-- (NSPoint) myPointOnPath:(GSPath*)path atTime:(myPathTime)t {
-    NSArray* seg = path.segments[t.segId];
-    if ([ seg count] == 2) {
-        NSPoint p1 = [[seg objectAtIndex:0] pointValue];
-        NSPoint p2 = [[seg objectAtIndex:1] pointValue];
-        CGFloat x = p1.x + (p2.x-p1.x)*fmod(t.t,1.0);
-        CGFloat y = p1.y + (p2.y-p1.y)*fmod(t.t,1.0);
-        // NSLog(@"p1=[%g,%g] at t(%g)= [%g,%g] p2=[%g,%g]",p1.x,p1.y,fmod(t,1.0),x,y,p2.x,p2.y);
-        return NSMakePoint(x, y);
-    }
-    NSPoint p = GSPointAtTime(
-                              [[seg objectAtIndex:0] pointValue],
-                              [[seg objectAtIndex:1] pointValue],
-                              [[seg objectAtIndex:2] pointValue],
-                              [[seg objectAtIndex:3] pointValue],
-                              t.t);
-    return p;
-}
-
-- (void) stepPathTime:(myPathTime*) t by:(float)step {
-    t->t += step;
-    if (t->t <= 0) { t->t += 1; t->segId--; }
-    if (t->t >= 1) { t->t -= 1; t->segId++; }
-
-}
-
-- (int) comparePathTime:(myPathTime) t1 with:(myPathTime)t2 {
-    if (t1.segId < t2.segId) return -1;
-    if (t1.segId > t2.segId) return 1;
-    return t1.t < t2.t ? -1 : t1.t > t2.t ? 1 : 0;
-}
-
 - (void) drawForegroundForLayer:(GSLayer *)Layer {
-    if (segStart1.segId == NSNotFound || segEnd1.segId == NSNotFound ||
-        segStart2.segId == NSNotFound || segEnd2.segId == NSNotFound ||
-        !path1 || !path2) {
+//    NSLog(@"start1: %@, %lu, %g", segStart1->path, segStart1->segId, segStart1->t);
+//    NSLog(@"start2: %@, %lu, %g", segStart2->path, segStart2->segId, segStart2->t);
+//    NSLog(@"end1: %@, %lu, %g", segEnd1->path, segEnd1->segId, segEnd1->t);
+//    NSLog(@"end2: %@, %lu, %g", segEnd2->path, segEnd2->segId, segEnd2->t);
+
+    if (segStart1->segId == NSNotFound || segEnd1->segId == NSNotFound ||
+        segStart2->segId == NSNotFound || segEnd2->segId == NSNotFound ||
+        !segStart1->path || !segStart2->path) {
         if (_dragging) {
             NSBezierPath * path = [NSBezierPath bezierPath];
             [path setLineWidth: 1];
             [path moveToPoint: _draggStart];
             [path lineToPoint: _draggCurrent];
-            if ((path1 && path2) || !path1) { [[NSColor greenColor] set]; } /* Start */
-            else { [[NSColor redColor] set]; }
+            if (tool_state == DRAWING_START) {
+                [[NSColor greenColor] set];
+            } else { [[NSColor redColor] set]; }
             [path stroke];
         }
         return;
     }
+//    NSLog(@"Drawing!");
+
     
     int steps = 400;
-    CGFloat step1 = ((segEnd1.segId + segEnd1.t) - (segStart1.segId + segStart1.t)) / steps; // XXX
-    CGFloat step2 = ((segEnd2.segId + segEnd2.t) - (segStart2.segId + segStart2.t)) / steps;;
+    CGFloat step1 = ((segEnd1->segId + segEnd1->t) - (segStart1->segId + segStart1->t)) / steps; // XXX
+    CGFloat step2 = ((segEnd2->segId + segEnd2->t) - (segStart2->segId + segStart2->t)) / steps;
     CGFloat maxLen = 0;
     CGFloat minLen = MAXFLOAT;
     CGFloat avgLen = 0;
-    myPathTime t1 = segStart1;
-    myPathTime t2 = segStart2;
-    while ([self comparePathTime:t1 with: segEnd1] < 0) {
-        NSPoint p1 = [self myPointOnPath: path1 atTime: t1];
-        NSPoint p2 = [self myPointOnPath: path2 atTime: t2];
+    SCPathTime* t1 = [segStart1 copy];
+    SCPathTime* t2 = [segStart2 copy];
+    int actualSteps = 0;
+    while ([t1 compareWith: segEnd1] != copysign(1.0, step1)) {
+        NSPoint p1 = [t1 point];
+        NSPoint p2 = [t2 point];
         CGFloat dist = GSSquareDistance(p1,p2);
         if (dist < minLen) minLen = dist;
         if (dist > maxLen) maxLen = dist;
         avgLen += dist / steps;
-        [self stepPathTime:&t1 by:step1];
-        [self stepPathTime:&t2 by:step2];
+        [t1 stepTimeBy:step1];
+        [t2 stepTimeBy:step2];
+        actualSteps++;
     }
+    NSLog(@"Min: %g, avg: %g, max: %g. steps=%ul", minLen, avgLen, maxLen, actualSteps);
 
-    t1 = segStart1;
-    t2 = segStart2;
-    while ([self comparePathTime:t1 with: segEnd1] < 0) {
-        NSPoint p1 = [self myPointOnPath: path1 atTime: t1];
-        NSPoint p2 = [self myPointOnPath: path2 atTime: t2];
+    t1 = [segStart1 copy];
+    t2 = [segStart2 copy];
+    while ([t1 compareWith: segEnd1] != copysign(1.0, step1)) {
+        NSPoint p1 = [t1 point];
+        NSPoint p2 = [t2 point];
         CGFloat dist = GSSquareDistance(p1,p2);
         NSBezierPath * path = [NSBezierPath bezierPath];
-        CGFloat distColor = 2*((dist / avgLen) - 1);
-        CGFloat b = distColor > 0 ? 0 : -(2*distColor);
-        CGFloat r = distColor < 0 ? 0 : 2*distColor;
-        CGFloat g = 1-fabs(2*distColor);
+        CGFloat distColor = (dist-avgLen) / (maxLen-minLen);
+        CGFloat b = distColor > 0 ? 0 : (avgLen-dist)/(avgLen-minLen);
+        CGFloat r = distColor < 0 ? 0 : (dist-avgLen)/(maxLen-avgLen);
+        CGFloat g = 1-fabs(distColor);
         NSColor *c = [NSColor colorWithCalibratedRed:r green:g blue:b alpha:0.75];
         [path setLineWidth: 2];
         [path moveToPoint: p1];
         [path lineToPoint: p2];
         [c set];
         [path stroke];
-
-        [self stepPathTime:&t1 by:step1];
-        [self stepPathTime:&t2 by:step2];
+        [t1 stepTimeBy:step1];
+        [t2 stepTimeBy:step2];
     }
 
     // Draw in the foreground, concerns the complete view.
@@ -180,6 +215,10 @@
 - (void) willActivate {
 	// Called when the tool is selected by the user.
 	// editViewController.graphicView.cursor = [NSCursor openHandCursor];
+    segStart1 = [segStart1 init];
+    segStart2 = [segStart2 init];
+    segEnd1 = [segEnd1 init];
+    segEnd2 = [segEnd2 init];
 }
 
 - (void) willDeactivate {}

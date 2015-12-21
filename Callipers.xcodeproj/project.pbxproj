@@ -13,6 +13,7 @@
 		F433345D1C256332008681AC /* Callipers.m in Sources */ = {isa = PBXBuildFile; fileRef = F433345C1C256332008681AC /* Callipers.m */; };
 		F43334621C256332008681AC /* GlyphsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43334611C256332008681AC /* GlyphsCore.framework */; };
 		F433346A1C259A4C008681AC /* toolbar.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F43334691C259A4C008681AC /* toolbar.pdf */; };
+		F4C7400B1C28200D00978B82 /* SCPathTime.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C7400A1C28200C00978B82 /* SCPathTime.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,8 @@
 		F43334611C256332008681AC /* GlyphsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GlyphsCore.framework; path = /Applications/Glyphs.app/Contents/Frameworks/GlyphsCore.framework; sourceTree = "<absolute>"; };
 		F43334631C256332008681AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F43334691C259A4C008681AC /* toolbar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = toolbar.pdf; sourceTree = "<group>"; };
+		F4C740091C28200C00978B82 /* SCPathTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPathTime.h; sourceTree = "<group>"; };
+		F4C7400A1C28200C00978B82 /* SCPathTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPathTime.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +75,8 @@
 				F43334591C256332008681AC /* Callipers-Info.plist */,
 				F433345B1C256332008681AC /* Callipers.h */,
 				F433345C1C256332008681AC /* Callipers.m */,
+				F4C740091C28200C00978B82 /* SCPathTime.h */,
+				F4C7400A1C28200C00978B82 /* SCPathTime.m */,
 				F43334631C256332008681AC /* Info.plist */,
 				F433345E1C256332008681AC /* Supporting Files */,
 			);
@@ -157,6 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F433345D1C256332008681AC /* Callipers.m in Sources */,
+				F4C7400B1C28200D00978B82 /* SCPathTime.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +291,7 @@
 				F43334681C256332008681AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

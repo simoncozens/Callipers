@@ -28,46 +28,17 @@
 	return self;
 }
 
-- (NSUInteger) interfaceVersion {
-	// Distinguishes the API verison the plugin was built for. Return 1.
-	return 1;
-}
+- (NSUInteger) interfaceVersion { return 1; }
 
-- (NSUInteger) groupID {
-	// Return a number between 50 and 1000 to position the icon in the toolbar.
-	return 120;
-}
+- (NSUInteger) groupID { return 120; }
 
-- (NSString*) title {
-	//return the name of the tool as it will appear in the tooltip of in the toolbar.
-	return @"Callipers";
-}
+- (NSString*) title { return @"Callipers"; }
 
-- (NSString*) trigger {
-	// Return the key that the user can press to activate the tool.
-	// Please make sure to not conflict with other tools.
-	return @"c";
-}
+- (NSString*) trigger { return @"c"; }
 
-- (NSInteger) tempTrigger {
-	// Return a modifierMask (e.g NSAlternateKeyMask, NSCommandKeyMask ...)
-	return 0;
-}
+- (NSInteger) tempTrigger { return 0; }
 
-- (BOOL) willSelectTempTool:(id) tempTool {
-	// This is called when the user presses a modifier key (e.g. the cmd key to swith to the Select Tool).
-	// Return NO to prevent the tool switching.
-	return YES;
-}
-
-- (void) keyDown:(NSEvent*)theEvent {
-	// Called when a key is pressed while the tool is active.
-	NSLog(@"keyDown: %@", theEvent);
-}
-
-- (void) doCommandBySelector:(SEL)aSelector {
-	NSLog(@"aSelector: %s", sel_getName(aSelector));
-}
+- (BOOL) willSelectTempTool:(id) tempTool {	return YES; }
 
 - (void) mouseDown:(NSEvent*)theEvent {
 	// Called when the mouse button is clicked.

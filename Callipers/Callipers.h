@@ -24,6 +24,9 @@ typedef struct myPathTime  {
 
 @interface Callipers : GlyphsPathPlugin {
     myPathTime segStart1, segStart2, segEnd1,segEnd2;
+    
+    /* Ideally these paths would go into the pathtime structs, but you can't
+       put a ObjC object inside a C struct. */
     GSPath* path1;
     GSPath* path2;
 }

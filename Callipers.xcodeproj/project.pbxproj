@@ -11,8 +11,8 @@
 		F43334581C256332008681AC /* Callipers-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = F43334571C256332008681AC /* Callipers-Prefix.pch */; };
 		F433345A1C256332008681AC /* Callipers-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F43334591C256332008681AC /* Callipers-Info.plist */; };
 		F433345D1C256332008681AC /* Callipers.m in Sources */ = {isa = PBXBuildFile; fileRef = F433345C1C256332008681AC /* Callipers.m */; };
-		F43334601C256332008681AC /* ToolbarIconTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F433345F1C256332008681AC /* ToolbarIconTemplate.pdf */; };
 		F43334621C256332008681AC /* GlyphsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43334611C256332008681AC /* GlyphsCore.framework */; };
+		F433346A1C259A4C008681AC /* toolbar.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F43334691C259A4C008681AC /* toolbar.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,9 +22,9 @@
 		F43334591C256332008681AC /* Callipers-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Callipers-Info.plist"; sourceTree = "<group>"; };
 		F433345B1C256332008681AC /* Callipers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Callipers.h; sourceTree = "<group>"; };
 		F433345C1C256332008681AC /* Callipers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Callipers.m; sourceTree = "<group>"; };
-		F433345F1C256332008681AC /* ToolbarIconTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ToolbarIconTemplate.pdf; sourceTree = "<group>"; };
 		F43334611C256332008681AC /* GlyphsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GlyphsCore.framework; path = /Applications/Glyphs.app/Contents/Frameworks/GlyphsCore.framework; sourceTree = "<absolute>"; };
 		F43334631C256332008681AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F43334691C259A4C008681AC /* toolbar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = toolbar.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +81,7 @@
 		F433345E1C256332008681AC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F433345F1C256332008681AC /* ToolbarIconTemplate.pdf */,
+				F43334691C259A4C008681AC /* toolbar.pdf */,
 				F43334611C256332008681AC /* GlyphsCore.framework */,
 			);
 			name = "Supporting Files";
@@ -143,8 +143,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F43334601C256332008681AC /* ToolbarIconTemplate.pdf in Resources */,
 				F433345A1C256332008681AC /* Callipers-Info.plist in Resources */,
+				F433346A1C259A4C008681AC /* toolbar.pdf in Resources */,
 				F43334581C256332008681AC /* Callipers-Prefix.pch in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

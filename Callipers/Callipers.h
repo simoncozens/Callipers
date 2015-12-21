@@ -10,9 +10,22 @@
 #import <GlyphsCore/GlyphsToolDrawProtocol.h>
 #import <GlyphsCore/GlyphsToolEventProtocol.h>
 #import <GlyphsCore/GlyphsPathPlugin.h>
+#import <GlyphsCore/GSLayer.h>
+#import <GlyphsCore/GSPath.h>
+#import <GlyphsCore/GSNode.h>
+#import <GlyphsCore/GSGeometrieHelper.h>
+
+
+typedef struct myPathTime  {
+    NSInteger segId;
+    CGFloat t;
+} myPathTime;
+
 
 @interface Callipers : GlyphsPathPlugin {
-
+    myPathTime segStart1, segStart2, segEnd1,segEnd2;
+    GSPath* path1;
+    GSPath* path2;
 }
 
 @end

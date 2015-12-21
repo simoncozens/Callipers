@@ -44,16 +44,23 @@
 	// Called when the mouse button is clicked.
 	_editViewController = [_windowController activeEditViewController];
 	// editViewController.graphicView.cursor = [NSCursor closedHandCursor];
-    _draggStart = [_editViewController.graphicView convertPoint:[theEvent locationInWindow] fromView: nil];
+    _draggStart = [_editViewController.graphicView getActiveLocation: theEvent];
     NSLog(@"__mouse dragged from : %@", NSStringFromPoint(_draggStart));
 }
 
 - (void) mouseDragged:(NSEvent*)theEvent {
 	// Called when the mouse is moved with the primary button down.
-	NSPoint Loc = [theEvent locationInWindow];
+    NSPoint Loc = [_editViewController.graphicView getActiveLocation: theEvent];
     [_editViewController.graphicView setNeedsDisplay: TRUE];
-    NSLog(@"__mouse dragged to : %@", NSStringFromPoint(Loc));
-
+    if ([theEvent modifierFlags] & NSShiftKeyMask) {
+        CGFloat dx = fabs(Loc.x - _draggStart.x);
+        CGFloat dy = fabs(Loc.y - _draggStart.y);
+        if (dx < dy) {
+            Loc.x = _draggStart.x;
+        } else {
+            Loc.y = _draggStart.y;
+        }
+    }
     _draggCurrent = Loc;
     _dragging = true;
 }
@@ -106,22 +113,18 @@
 }
 
 - (void) drawForegroundForLayer:(GSLayer *)Layer {
-    NSLog(@"Drawing now");
     if (segStart1.segId == NSNotFound || segEnd1.segId == NSNotFound ||
         segStart2.segId == NSNotFound || segEnd2.segId == NSNotFound ||
         !path1 || !path2) {
         if (_dragging) {
-            NSLog(@"Drawing the drag");
             NSBezierPath * path = [NSBezierPath bezierPath];
-            [path setLineWidth: 2];
+            [path setLineWidth: 1];
             [path moveToPoint: _draggStart];
-             _draggCurrent = [_editViewController.graphicView convertPoint:_draggCurrent fromView:nil];
-            NSLog(@"converted point : %@", NSStringFromPoint(_draggCurrent));
             [path lineToPoint: _draggCurrent];
-            [[NSColor blackColor] set];
+            if ((path1 && path2) || !path1) { [[NSColor greenColor] set]; } /* Start */
+            else { [[NSColor redColor] set]; }
             [path stroke];
         }
-
         return;
     }
     

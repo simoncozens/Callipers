@@ -164,37 +164,39 @@
     int steps = 400;
     CGFloat step1 = ((segEnd1->segId + segEnd1->t) - (segStart1->segId + segStart1->t)) / steps; // XXX
     CGFloat step2 = ((segEnd2->segId + segEnd2->t) - (segStart2->segId + segStart2->t)) / steps;
-    CGFloat maxLen = 0;
-    CGFloat minLen = MAXFLOAT;
-    CGFloat avgLen = 0;
+    long maxLen = 0;
+    long minLen = 99999;
+    long avgLen = 0;
     SCPathTime* t1 = [segStart1 copy];
     SCPathTime* t2 = [segStart2 copy];
     int actualSteps = 0;
     while ([t1 compareWith: segEnd1] != copysign(1.0, step1)) {
         NSPoint p1 = [t1 point];
         NSPoint p2 = [t2 point];
-        CGFloat dist = GSSquareDistance(p1,p2);
+        long dist = GSSquareDistance(p1,p2);
         if (dist < minLen) minLen = dist;
         if (dist > maxLen) maxLen = dist;
-        avgLen += dist / steps;
+        avgLen += dist;
         [t1 stepTimeBy:step1];
         [t2 stepTimeBy:step2];
         actualSteps++;
     }
-    NSLog(@"Min: %g, avg: %g, max: %g. steps=%ul", minLen, avgLen, maxLen, actualSteps);
+    avgLen = avgLen / actualSteps;
+    NSLog(@"Min: %li, avg: %li, max: %li. steps=%ul", minLen, avgLen, maxLen, actualSteps);
 
     t1 = [segStart1 copy];
     t2 = [segStart2 copy];
     while ([t1 compareWith: segEnd1] != copysign(1.0, step1)) {
         NSPoint p1 = [t1 point];
         NSPoint p2 = [t2 point];
-        CGFloat dist = GSSquareDistance(p1,p2);
+        long dist = GSSquareDistance(p1,p2);
         NSBezierPath * path = [NSBezierPath bezierPath];
-        CGFloat distColor = (dist-avgLen) / (maxLen-minLen);
-        CGFloat b = distColor > 0 ? 0 : (avgLen-dist)/(avgLen-minLen);
-        CGFloat r = distColor < 0 ? 0 : (dist-avgLen)/(maxLen-avgLen);
-        CGFloat g = 1-fabs(distColor);
-        NSColor *c = [NSColor colorWithCalibratedRed:r green:g blue:b alpha:0.75];
+        CGFloat scale = fabs((CGFloat)maxLen-minLen);
+        if (scale < 100) scale = 100;
+        CGFloat hue = (120+((avgLen-dist)/scale*120.0))/360;
+        if (hue < 0.2) hue -= 0.11;
+        NSColor *c = [NSColor colorWithHue:hue saturation:1.0 brightness:1.0 alpha:0.7];
+//        NSLog(@"Dist: %li, hue: %g. Min: %li, avg: %li, max: %li", dist, hue, minLen, avgLen, maxLen);
         [path setLineWidth: 2];
         [path moveToPoint: p1];
         [path lineToPoint: p2];

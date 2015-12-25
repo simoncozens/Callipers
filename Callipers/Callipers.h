@@ -27,6 +27,9 @@ typedef enum {
     SCPathTime* segStart2;
     SCPathTime* segEnd1;
     SCPathTime* segEnd2;
+    long cacheMin;
+    long cacheMax;
+    long cacheAvg;
     TOOL_STATE tool_state;
 }
 

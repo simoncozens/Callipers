@@ -51,6 +51,7 @@
     }
     segEnd1 = [segEnd1 init];
     segEnd2 = [segEnd2 init];
+    cacheMin = 0;
 //    NSLog(@"__mouse dragged from : %@", NSStringFromPoint(_draggStart));
 }
 
@@ -189,28 +190,38 @@
 //    NSLog(@"Drawing!");
 
     
-    int steps = 200;
+    int steps = 400;
     CGFloat step1 = ((segEnd1->segId + segEnd1->t) - (segStart1->segId + segStart1->t)) / steps; // XXX
     CGFloat step2 = ((segEnd2->segId + segEnd2->t) - (segStart2->segId + segStart2->t)) / steps;
-    long maxLen = 0;
-    long minLen = 99999;
-    long avgLen = 0;
-    SCPathTime* t1 = [segStart1 copy];
-    SCPathTime* t2 = [segStart2 copy];
-    int actualSteps = 0;
-    while ([t1 compareWith: segEnd1] != copysign(1.0, step1)) {
-        NSPoint p1 = [t1 point];
-        NSPoint p2 = [self minSquareDistancePoint:p1 Curve:t2];
-        long dist = GSSquareDistance(p1,p2);
-        if (dist < minLen) minLen = dist;
-        if (dist > maxLen) maxLen = dist;
-        avgLen += dist;
-        [t1 stepTimeBy:step1];
-        [t2 stepTimeBy:step2];
-        actualSteps++;
+    long maxLen, minLen, avgLen;
+    SCPathTime* t1, *t2;
+
+    if (cacheMin == 0) {
+        minLen = 99999;
+        maxLen = 0;
+        avgLen = 0;
+        t1 = [segStart1 copy];
+        t2 = [segStart2 copy];
+        int actualSteps = 0;
+        while ([t1 compareWith: segEnd1] != copysign(1.0, step1)) {
+            NSPoint p1 = [t1 point];
+            NSPoint p2 = [self minSquareDistancePoint:p1 Curve:t2];
+            long dist = GSSquareDistance(p1,p2);
+            if (dist < minLen) minLen = dist;
+            if (dist > maxLen) maxLen = dist;
+            avgLen += dist;
+            [t1 stepTimeBy:step1];
+            [t2 stepTimeBy:step2];
+            actualSteps++;
+        }
+        cacheAvg = avgLen = avgLen / actualSteps;
+        cacheMin = minLen;
+        cacheMax = maxLen;
+    } else {
+        maxLen = cacheMax;
+        minLen = cacheMin;
+        avgLen = cacheAvg;
     }
-    avgLen = avgLen / actualSteps;
-    NSLog(@"Min: %li, avg: %li, max: %li. steps=%ul", minLen, avgLen, maxLen, actualSteps);
 
     t1 = [segStart1 copy];
     t2 = [segStart2 copy];

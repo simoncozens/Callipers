@@ -194,7 +194,7 @@
         CGFloat scale = fabs((CGFloat)maxLen-minLen);
         if (scale < 100) scale = 100;
         CGFloat hue = (120+((avgLen-dist)/scale*120.0))/360;
-        if (hue < 0.2) hue -= 0.11;
+//        if (hue < 0.2) hue -= 0.11;
         NSColor *c = [NSColor colorWithHue:hue saturation:1.0 brightness:1.0 alpha:0.7];
 //        NSLog(@"Dist: %li, hue: %g. Min: %li, avg: %li, max: %li", dist, hue, minLen, avgLen, maxLen);
         [path setLineWidth: 2];

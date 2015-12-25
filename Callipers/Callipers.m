@@ -137,6 +137,34 @@
 	// Draw in the background, concerns the complete view.
 }
 
+- (NSPoint) minSquareDistancePoint:(NSPoint) p Curve:(SCPathTime*)c {
+    NSPoint best = [c point];
+    long bestDist = GSSquareDistance(p, best);
+    SCPathTime* c2 = [c copy];
+    while (true){
+        [c2 stepTimeBy:0.01];
+        NSPoint p2 = [c2 point];
+        long d = GSSquareDistance(p, p2);
+        if (d < bestDist) {
+            bestDist = d;
+            best = p2;
+        }
+        if (d > bestDist) break;
+    }
+    c2 = [c copy];
+    while (true){
+        [c2 stepTimeBy:-0.01];
+        NSPoint p2 = [c2 point];
+        long d = GSSquareDistance(p, p2);
+        if (d < bestDist) {
+            bestDist = d;
+            best = p2;
+        }
+        if (d > bestDist) break;
+    }
+    return best;
+}
+
 - (void) drawForegroundForLayer:(GSLayer *)Layer {
 //    NSLog(@"start1: %@, %lu, %g", segStart1->path, segStart1->segId, segStart1->t);
 //    NSLog(@"start2: %@, %lu, %g", segStart2->path, segStart2->segId, segStart2->t);
@@ -161,7 +189,7 @@
 //    NSLog(@"Drawing!");
 
     
-    int steps = 400;
+    int steps = 200;
     CGFloat step1 = ((segEnd1->segId + segEnd1->t) - (segStart1->segId + segStart1->t)) / steps; // XXX
     CGFloat step2 = ((segEnd2->segId + segEnd2->t) - (segStart2->segId + segStart2->t)) / steps;
     long maxLen = 0;
@@ -172,7 +200,7 @@
     int actualSteps = 0;
     while ([t1 compareWith: segEnd1] != copysign(1.0, step1)) {
         NSPoint p1 = [t1 point];
-        NSPoint p2 = [t2 point];
+        NSPoint p2 = [self minSquareDistancePoint:p1 Curve:t2];
         long dist = GSSquareDistance(p1,p2);
         if (dist < minLen) minLen = dist;
         if (dist > maxLen) maxLen = dist;
@@ -188,7 +216,7 @@
     t2 = [segStart2 copy];
     while ([t1 compareWith: segEnd1] != copysign(1.0, step1)) {
         NSPoint p1 = [t1 point];
-        NSPoint p2 = [t2 point];
+        NSPoint p2 = [self minSquareDistancePoint:p1 Curve:t2];
         long dist = GSSquareDistance(p1,p2);
         NSBezierPath * path = [NSBezierPath bezierPath];
         CGFloat scale = fabs((CGFloat)maxLen-minLen);

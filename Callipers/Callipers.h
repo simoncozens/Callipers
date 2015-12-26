@@ -32,5 +32,8 @@ typedef enum {
     long cacheAvg;
     TOOL_STATE tool_state;
 }
+@property (nonatomic, weak) IBOutlet NSWindow *optionsWindow;
+@property (weak) IBOutlet NSSlider *stepsSlider;
+@property (weak) IBOutlet NSSlider *thickSlider;
 
 @end

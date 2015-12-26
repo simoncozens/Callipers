@@ -19,6 +19,11 @@
 		[_toolBarIcon setTemplate:YES];
 	}
     tool_state = DRAWING_START;
+    [NSBundle loadNibNamed:@"CallipersOptions" owner:self];
+    [_stepsSlider setTarget:self];
+    [_stepsSlider setAction:@selector(redrawTheView)];
+    [_thickSlider setTarget:self];
+    [_thickSlider setAction:@selector(redrawTheView)];
     
     segStart1 = [[SCPathTime alloc] init];
     segStart2 = [[SCPathTime alloc] init];
@@ -38,7 +43,7 @@
 
 - (NSInteger) tempTrigger { return 0; }
 
-- (BOOL) willSelectTempTool:(id) tempTool {	return YES; }
+- (BOOL) willSelectTempTool:(id) tempTool {	return NO; }
 
 - (void) mouseDown:(NSEvent*)theEvent {
 	// Called when the mouse button is clicked.
@@ -134,6 +139,10 @@
     
 }
 
+- (void) redrawTheView {
+    [_editViewController.graphicView setNeedsDisplay: TRUE];
+}
+
 - (void) drawBackground {
 	// Draw in the background, concerns the complete view.
 }
@@ -190,7 +199,7 @@
 //    NSLog(@"Drawing!");
 
     
-    int steps = 400;
+    int steps = [_stepsSlider intValue];
     CGFloat step1 = ((segEnd1->segId + segEnd1->t) - (segStart1->segId + segStart1->t)) / steps; // XXX
     CGFloat step2 = ((segEnd2->segId + segEnd2->t) - (segStart2->segId + segStart2->t)) / steps;
     long maxLen, minLen, avgLen;
@@ -234,9 +243,9 @@
         if (scale < 100) scale = 100;
         CGFloat hue = (120+((avgLen-dist)/scale*120.0))/360;
 //        if (hue < 0.2) hue -= 0.11;
-        NSColor *c = [NSColor colorWithHue:hue saturation:1.0 brightness:1.0 alpha:0.7];
+        NSColor *c = [NSColor colorWithHue:hue saturation:1.0 brightness:1.0 alpha:1];
 //        NSLog(@"Dist: %li, hue: %g. Min: %li, avg: %li, max: %li", dist, hue, minLen, avgLen, maxLen);
-        [path setLineWidth: 2];
+        [path setLineWidth: [_thickSlider intValue]];
         [path moveToPoint: p1];
         [path lineToPoint: p2];
         [c set];
@@ -260,6 +269,7 @@
     segStart2 = [segStart2 init];
     segEnd1 = [segEnd1 init];
     segEnd2 = [segEnd2 init];
+    [_optionsWindow makeKeyAndOrderFront:self];
 }
 
 - (void) willDeactivate {}

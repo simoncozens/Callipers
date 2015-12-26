@@ -14,6 +14,7 @@
 		F43334621C256332008681AC /* GlyphsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43334611C256332008681AC /* GlyphsCore.framework */; };
 		F433346A1C259A4C008681AC /* toolbar.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F43334691C259A4C008681AC /* toolbar.pdf */; };
 		F4C7400B1C28200D00978B82 /* SCPathTime.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C7400A1C28200C00978B82 /* SCPathTime.m */; };
+		F4DEB0961C2DFE9200285FB1 /* CallipersOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4DEB0951C2DFE9200285FB1 /* CallipersOptions.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		F43334691C259A4C008681AC /* toolbar.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = toolbar.pdf; sourceTree = "<group>"; };
 		F4C740091C28200C00978B82 /* SCPathTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCPathTime.h; sourceTree = "<group>"; };
 		F4C7400A1C28200C00978B82 /* SCPathTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCPathTime.m; sourceTree = "<group>"; };
+		F4DEB0951C2DFE9200285FB1 /* CallipersOptions.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallipersOptions.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				F4C7400A1C28200C00978B82 /* SCPathTime.m */,
 				F43334631C256332008681AC /* Info.plist */,
 				F433345E1C256332008681AC /* Supporting Files */,
+				F4DEB0951C2DFE9200285FB1 /* CallipersOptions.xib */,
 			);
 			path = Callipers;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4DEB0961C2DFE9200285FB1 /* CallipersOptions.xib in Resources */,
 				F433345A1C256332008681AC /* Callipers-Info.plist in Resources */,
 				F433346A1C259A4C008681AC /* toolbar.pdf in Resources */,
 				F43334581C256332008681AC /* Callipers-Prefix.pch in Resources */,

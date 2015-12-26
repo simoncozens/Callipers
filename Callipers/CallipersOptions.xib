@@ -17,39 +17,67 @@
         <window title="Callipers" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" texturedBackground="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="279" height="169"/>
+            <rect key="contentRect" x="196" y="240" width="279" height="166"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="279" height="169"/>
+                <rect key="frame" x="0.0" y="0.0" width="279" height="166"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vBv-qM-jnY">
-                        <rect key="frame" x="12" y="132" width="37" height="17"/>
+                        <rect key="frame" x="12" y="129" width="62" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Steps" id="oeM-MR-9Ha">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Us4-ey-xd7">
-                        <rect key="frame" x="113" y="125" width="132" height="26"/>
-                        <sliderCell key="cell" state="on" alignment="left" minValue="20" maxValue="400" doubleValue="200" tickMarkPosition="above" numberOfTickMarks="20" allowsTickMarkValuesOnly="YES" sliderType="linear" id="Zxi-c8-h8a"/>
-                    </slider>
-                    <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mtT-Ty-wSc">
-                        <rect key="frame" x="113" y="93" width="132" height="27"/>
-                        <sliderCell key="cell" state="on" alignment="left" minValue="1" maxValue="8" doubleValue="2" tickMarkPosition="below" numberOfTickMarks="8" allowsTickMarkValuesOnly="YES" sliderType="linear" id="XNc-Nx-L8u"/>
-                    </slider>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9rp-1a-iiH">
-                        <rect key="frame" x="12" y="101" width="95" height="17"/>
+                        <rect key="frame" x="12" y="98" width="95" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Line Thickness" id="f9m-yN-t25">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Us4-ey-xd7">
+                        <rect key="frame" x="118" y="122" width="132" height="26"/>
+                        <sliderCell key="cell" state="on" alignment="left" minValue="20" maxValue="400" doubleValue="200" tickMarkPosition="above" numberOfTickMarks="20" allowsTickMarkValuesOnly="YES" sliderType="linear" id="Zxi-c8-h8a"/>
+                    </slider>
+                    <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mtT-Ty-wSc">
+                        <rect key="frame" x="118" y="90" width="132" height="27"/>
+                        <sliderCell key="cell" state="on" alignment="left" minValue="1" maxValue="8" doubleValue="2" tickMarkPosition="below" numberOfTickMarks="8" allowsTickMarkValuesOnly="YES" sliderType="linear" id="XNc-Nx-L8u"/>
+                    </slider>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ajp-ZT-Nn3">
+                        <rect key="frame" x="12" y="22" width="95" height="37"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Measurement method" id="MfL-0K-Bum">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="HYb-cP-Vr3">
+                        <rect key="frame" x="119" y="41" width="131" height="18"/>
+                        <buttonCell key="cell" type="radio" title="Closest point" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="ZmH-lC-B2V">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="changeMeasureMode:" target="-2" id="9oQ-Pi-q3r"/>
+                        </connections>
+                    </button>
+                    <button fixedFrame="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="8wE-6G-oLp">
+                        <rect key="frame" x="119" y="19" width="147" height="18"/>
+                        <buttonCell key="cell" type="radio" title="Corresponding point" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="05f-0E-q8L">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="changeMeasureMode:" target="-2" id="Ak3-pP-zBS"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="179.5" y="164.5"/>
+            <point key="canvasLocation" x="179.5" y="163"/>
         </window>
     </objects>
 </document>

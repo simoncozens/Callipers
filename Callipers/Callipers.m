@@ -19,6 +19,7 @@
 		[_toolBarIcon setTemplate:YES];
 	}
     tool_state = DRAWING_START;
+    measure_mode = MEASURE_CLOSEST;
     [NSBundle loadNibNamed:@"CallipersOptions" owner:self];
     [_stepsSlider setTarget:self];
     [_stepsSlider setAction:@selector(redrawTheView)];
@@ -149,6 +150,8 @@
 
 - (NSPoint) minSquareDistancePoint:(NSPoint) p Curve:(SCPathTime*)c {
     NSPoint best = [c point];
+    if (measure_mode == MEASURE_CORRESPONDING) return best;
+    
     long bestDist = GSSquareDistance(p, best);
     SCPathTime* c2 = [c copy];
     while (true){
@@ -270,6 +273,12 @@
     segEnd1 = [segEnd1 init];
     segEnd2 = [segEnd2 init];
     [_optionsWindow makeKeyAndOrderFront:self];
+}
+
+- (IBAction) changeMeasureMode:(NSButton*)sender {
+    if ([sender tag] == 1) { measure_mode = MEASURE_CLOSEST; }
+    else if ([sender tag] == 2) { measure_mode = MEASURE_CORRESPONDING; }
+    [self redrawTheView];
 }
 
 - (void) willDeactivate {}

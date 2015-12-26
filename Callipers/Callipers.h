@@ -22,6 +22,11 @@ typedef enum {
     DRAWING_END
 } TOOL_STATE ;
 
+typedef enum {
+    MEASURE_CLOSEST,
+    MEASURE_CORRESPONDING
+} MEASURE_MODE ;
+
 @interface Callipers : GlyphsPathPlugin {
     SCPathTime* segStart1;
     SCPathTime* segStart2;
@@ -31,7 +36,11 @@ typedef enum {
     long cacheMax;
     long cacheAvg;
     TOOL_STATE tool_state;
+    MEASURE_MODE measure_mode;
 }
+
+- (IBAction) changeMeasureMode:(id)sender;
+
 @property (nonatomic, weak) IBOutlet NSWindow *optionsWindow;
 @property (weak) IBOutlet NSSlider *stepsSlider;
 @property (weak) IBOutlet NSSlider *thickSlider;

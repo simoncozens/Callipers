@@ -7,6 +7,7 @@
 //
 
 #import "Callipers.h"
+#import <GlyphsCore/GSGeometrieHelper.h>
 
 @implementation Callipers
 
@@ -178,6 +179,47 @@
     return best;
 }
 
+- (CGFloat) segLength: (GSPath*)p segId:(NSInteger)segId from:(CGFloat)t1 to:(CGFloat)t2 {
+    NSArray* seg = p.segments[segId];
+    if ([ seg count] == 2) {
+        NSPoint start = [[seg objectAtIndex:0] pointValue];
+        NSPoint end = [[seg objectAtIndex:1] pointValue];
+        CGFloat x1 = start.x + (end.x-start.x)*fmod(t1,1.0);
+        CGFloat y1 = start.y + (end.y-start.y)*fmod(t1,1.0);
+        CGFloat x2 = start.x + (end.x-start.x)*fmod(t2,1.0);
+        CGFloat y2 = start.y + (end.y-start.y)*fmod(t2,1.0);
+        return sqrtf( (float)(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2))));
+    } else {
+        NSPoint o1, o2, o3, o4;
+        NSPoint i1 = [[seg objectAtIndex:0] pointValue];
+        NSPoint i2 = [[seg objectAtIndex:1] pointValue];
+        NSPoint i3 = [[seg objectAtIndex:2] pointValue];
+        NSPoint i4 = [[seg objectAtIndex:3] pointValue];
+        GSSegmentBetweenPoints(i1,i2,i3,i4, &o1, &o2, &o3, &o4, GSPointAtTime(i1,i2,i3,i4,t1),GSPointAtTime(i1,i2,i3,i4,t2));
+        return GSLengthOfSegment(o1,o2,o3,o4);
+    }
+}
+
+- (CGFloat) pathLength: (SCPathTime*)start to: (SCPathTime*) end {
+    SCPathTime *p1, *p2;
+    if (start->segId > end->segId || (start->segId == end->segId && start->t > end->t)) {
+        p1 = end; p2 = start;
+    } else {
+        p1 = start; p2 = end;
+    }
+    NSInteger segId = p1->segId;
+    CGFloat total = 0;
+    CGFloat t = p1->t;
+    while (segId < p2->segId) {
+        total += [self segLength: p1->path segId:segId from:t to:1];
+        segId++;
+        t = 0;
+    }
+    total += [self segLength:p1->path segId:segId from:t to:p2->t];
+    return total;
+}
+
+
 - (void) drawForegroundForLayer:(GSLayer *)Layer {
 //    NSLog(@"start1: %@, %lu, %g", segStart1->path, segStart1->segId, segStart1->t);
 //    NSLog(@"start2: %@, %lu, %g", segStart2->path, segStart2->segId, segStart2->t);
@@ -201,7 +243,17 @@
     }
 //    NSLog(@"Drawing!");
 
-    
+    // Measure the two paths. Swap if needed
+    CGFloat sl1 = [self pathLength:segStart1 to:segEnd1];
+    CGFloat sl2 = [self pathLength:segStart2 to:segEnd2];
+    NSLog(@"Length of intersections, 1: %g, 2: %g", sl1, sl2);
+    if (sl1 < sl2) {
+        SCPathTime* ss = segStart2;
+        SCPathTime* se = segEnd2;
+        segStart2 = segStart1; segStart1 = ss;
+        segEnd2 = segEnd1; segEnd1 = se;
+    }
+
     int steps = [_stepsSlider intValue];
     CGFloat step1 = ((segEnd1->segId + segEnd1->t) - (segStart1->segId + segStart1->t)) / steps; // XXX
     CGFloat step2 = ((segEnd2->segId + segEnd2->t) - (segStart2->segId + segStart2->t)) / steps;

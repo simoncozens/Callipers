@@ -50,15 +50,19 @@
 - (void) mouseDown:(NSEvent*)theEvent {
 	// Called when the mouse button is clicked.
 	_editViewController = [_windowController activeEditViewController];
+    currentLayer = [_editViewController.graphicView activeLayer];
 	// editViewController.graphicView.cursor = [NSCursor closedHandCursor];
     _draggStart = [_editViewController.graphicView getActiveLocation: theEvent];
     if (tool_state == DRAWING_START) {
+        NSLog(@"Clearing start");
         segStart1 = [segStart1 init];
         segStart2 = [segStart2 init];
     }
+    NSLog(@"Clearing end");
     segEnd1 = [segEnd1 init];
     segEnd2 = [segEnd2 init];
     cacheMin = 0;
+    NSLog(@"Mousedown ended");
 //    NSLog(@"__mouse dragged from : %@", NSStringFromPoint(_draggStart));
 }
 
@@ -121,7 +125,7 @@
             i++;
         }
     }
-//    NSLog(@"Found %lu intersections!", (unsigned long)[intersections count]);
+    NSLog(@"Found %lu intersections!", (unsigned long)[intersections count]);
     if ([intersections count] != 2) {
         [_editViewController.graphicView setNeedsDisplay: TRUE];
         return;
@@ -131,11 +135,19 @@
         tool_state = DRAWING_END;
         segStart1 = [intersections objectAtIndex:0];
         segStart2 = [intersections objectAtIndex:1];
+        NSLog(@"Setting start");
+        NSLog(@"start1: %@, %lu, %g", segStart1->path, segStart1->segId, segStart1->t);
+        NSLog(@"start2: %@, %lu, %g", segStart2->path, segStart2->segId, segStart2->t);
     } else {
         tool_state = DRAWING_START;
         segEnd1 = [intersections objectAtIndex:0];
         segEnd2 = [intersections objectAtIndex:1];
         _dragging = false;
+        NSLog(@"Setting end");
+        NSLog(@"start1: %@, %lu, %g", segStart1->path, segStart1->segId, segStart1->t);
+        NSLog(@"start2: %@, %lu, %g", segStart2->path, segStart2->segId, segStart2->t);
+        NSLog(@"end1: %@, %lu, %g", segEnd1->path, segEnd1->segId, segEnd1->t);
+        NSLog(@"end2: %@, %lu, %g", segEnd2->path, segEnd2->segId, segEnd2->t);
         [_editViewController.graphicView setNeedsDisplay: TRUE];
     }
     
@@ -221,10 +233,6 @@
 
 
 - (void) drawForegroundForLayer:(GSLayer *)Layer {
-//    NSLog(@"start1: %@, %lu, %g", segStart1->path, segStart1->segId, segStart1->t);
-//    NSLog(@"start2: %@, %lu, %g", segStart2->path, segStart2->segId, segStart2->t);
-//    NSLog(@"end1: %@, %lu, %g", segEnd1->path, segEnd1->segId, segEnd1->t);
-//    NSLog(@"end2: %@, %lu, %g", segEnd2->path, segEnd2->segId, segEnd2->t);
 
     if (segStart1->segId == NSNotFound || segEnd1->segId == NSNotFound ||
         segStart2->segId == NSNotFound || segEnd2->segId == NSNotFound ||
@@ -320,11 +328,15 @@
 - (void) willActivate {
 	// Called when the tool is selected by the user.
 	// editViewController.graphicView.cursor = [NSCursor openHandCursor];
-    segStart1 = [segStart1 init];
-    segStart2 = [segStart2 init];
-    segEnd1 = [segEnd1 init];
-    segEnd2 = [segEnd2 init];
+    NSLog(@"Willactivate called");
     [_optionsWindow makeKeyAndOrderFront:self];
+    GSLayer* layer = [_editViewController.graphicView activeLayer];
+    if (layer != currentLayer) {
+        segStart1 = [segStart1 init];
+        segStart2 = [segStart2 init];
+        segEnd1 = [segEnd1 init];
+        segEnd2 = [segEnd2 init];
+    }
 }
 
 - (IBAction) changeMeasureMode:(NSButton*)sender {
@@ -333,6 +345,7 @@
     [self redrawTheView];
 }
 
-- (void) willDeactivate {}
+- (void) willDeactivate {
+}
 
 @end

@@ -37,6 +37,7 @@ typedef enum {
     long cacheAvg;
     TOOL_STATE tool_state;
     MEASURE_MODE measure_mode;
+    GSLayer* currentLayer;
 }
 
 - (IBAction) changeMeasureMode:(id)sender;

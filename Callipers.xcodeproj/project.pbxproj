@@ -257,7 +257,7 @@
 				INSTALL_PATH = /;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.simon-cozens.Callipers";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = glyphsTool;
 			};
 			name = Debug;
@@ -271,7 +271,7 @@
 				INSTALL_PATH = /;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.simon-cozens.Callipers";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = glyphsTool;
 			};
 			name = Release;

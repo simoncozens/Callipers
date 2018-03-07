@@ -346,6 +346,7 @@
 }
 
 - (void) willDeactivate {
+	 [_optionsWindow orderOut:self];
 }
 
 @end

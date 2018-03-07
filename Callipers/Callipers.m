@@ -49,6 +49,9 @@
 
 - (void) mouseDown:(NSEvent*)theEvent {
 	// Called when the mouse button is clicked.
+    if (!([theEvent modifierFlags] & NSEventModifierFlagOption)) {
+        return [super mouseDown:theEvent];
+    }
 	_editViewController = [_windowController activeEditViewController];
     currentLayer = [_editViewController.graphicView activeLayer];
 	// editViewController.graphicView.cursor = [NSCursor closedHandCursor];
@@ -68,6 +71,9 @@
 
 - (void) mouseDragged:(NSEvent*)theEvent {
 	// Called when the mouse is moved with the primary button down.
+    if (!([theEvent modifierFlags] & NSEventModifierFlagOption)) {
+        return [super mouseDragged:theEvent];
+    }
     NSPoint Loc = [_editViewController.graphicView getActiveLocation: theEvent];
     [_editViewController.graphicView setNeedsDisplay: TRUE];
     if ([theEvent modifierFlags] & NSShiftKeyMask) {
@@ -86,6 +92,9 @@
 - (void) mouseUp:(NSEvent*)theEvent {
 	// Called when the primary mouse button is released.
 	// editViewController.graphicView.cursor = [NSCursor openHandCursor];
+    if (!([theEvent modifierFlags] & NSEventModifierFlagOption)) {
+        return [super mouseUp:theEvent];
+    }
     NSPoint startPoint = _draggStart;
     NSPoint endPoint   = _draggCurrent;
     GSLayer* layer = [_editViewController.graphicView activeLayer];
@@ -303,11 +312,11 @@
         long dist = GSSquareDistance(p1,p2);
         NSBezierPath * path = [NSBezierPath bezierPath];
         CGFloat scale = fabs((CGFloat)maxLen-minLen);
-        if (scale < 100) scale = 100;
-        CGFloat hue = (120+((avgLen-dist)/scale*120.0))/360;
+        if (scale < 5) scale = 5;
+        CGFloat hue = (120+((avgLen-dist)/scale*180.0))/360;
 //        if (hue < 0.2) hue -= 0.11;
         NSColor *c = [NSColor colorWithHue:hue saturation:1.0 brightness:1.0 alpha:1];
-//        NSLog(@"Dist: %li, hue: %g. Min: %li, avg: %li, max: %li", dist, hue, minLen, avgLen, maxLen);
+        NSLog(@"Dist: %li, hue: %g. Min: %li, avg: %li, max: %li", dist, hue, minLen, avgLen, maxLen);
         [path setLineWidth: [_thickSlider intValue]];
         [path moveToPoint: p1];
         [path lineToPoint: p2];
@@ -317,21 +326,21 @@
         [t2 stepTimeBy:step2];
     }
 
-    // Draw in the foreground, concerns the complete view.
+    [super drawBackgroundForLayer:Layer];
 }
-
-- (void) drawLayer:(GSLayer*)Layer atPoint:(NSPoint)aPoint asActive:(BOOL)Active attributes:(NSDictionary*)Attributes {
-	// Draw anythin for this particular layer.
-    [ _editViewController.graphicView drawLayerOutlines:Layer aPoint:aPoint color:[NSColor blackColor] fill:!Active];
-}
+//
+//- (void) drawLayer:(GSLayer*)Layer atPoint:(NSPoint)aPoint asActive:(BOOL)Active attributes:(NSDictionary*)Attributes {
+//	// Draw anythin for this particular layer.
+//    [ _editViewController.graphicView drawLayerOutlines:Layer aPoint:aPoint color:[NSColor blackColor] fill:!Active];
+//}
 
 - (void) willActivate {
 	// Called when the tool is selected by the user.
 	// editViewController.graphicView.cursor = [NSCursor openHandCursor];
 //    NSLog(@"Willactivate called");
-    [_optionsWindow makeKeyAndOrderFront:self];
     GSLayer* layer = [_editViewController.graphicView activeLayer];
     if (layer != currentLayer) {
+        [_optionsWindow orderFront:self];
         segStart1 = [segStart1 init];
         segStart2 = [segStart2 init];
         segEnd1 = [segEnd1 init];

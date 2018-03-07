@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <GlyphsCore/GlyphsToolDrawProtocol.h>
 #import <GlyphsCore/GlyphsToolEventProtocol.h>
-#import <GlyphsCore/GlyphsPathPlugin.h>
+#import <GlyphsCore/GSToolSelect.h>
 #import <GlyphsCore/GSLayer.h>
 #import <GlyphsCore/GSPath.h>
 #import <GlyphsCore/GSNode.h>
@@ -27,7 +27,7 @@ typedef enum {
     MEASURE_CORRESPONDING
 } MEASURE_MODE ;
 
-@interface Callipers : GlyphsPathPlugin {
+@interface Callipers : GSToolSelect {
     SCPathTime* segStart1;
     SCPathTime* segStart2;
     SCPathTime* segEnd1;
